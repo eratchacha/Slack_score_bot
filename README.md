@@ -1,4 +1,5 @@
-### 1. 슬랙 앱 생성
+# Slack Score Bot
+## 1. 슬랙 앱 생성
 
 - slack api 사이트 접속
 - create new app → from scratch
@@ -19,7 +20,7 @@ ngrok http 3000
 python app.py
 
 
-### 2. v1 기능
+## 2. v1 기능
 
 - 점수 등록(+1, -1)
 

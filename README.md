@@ -22,7 +22,7 @@ python app.py
 
 ## 2. v1 기능
 
-- 점수 등록(+1, -1)
+#### 점수 등록(+1, -1)
 
 > /score 이소연 +1
 > 
@@ -31,32 +31,39 @@ python app.py
 > 
 
 **<결과>**
+
+
 <img width="273" alt="image" src="https://github.com/user-attachments/assets/4cf249c1-dee4-4f95-ac90-e6af49d58e2c" />
 
 
 
-- 점수 초기화
+#### 점수 초기화
 
 > /score init
 > 
 
 
 **<결과>**
+
+
 <img width="380" alt="image" src="https://github.com/user-attachments/assets/d1774a78-80e6-4ed5-99f5-54085dbefc28" />
 
 
-- 총점 조회
+#### 총점 조회
 
 > /score
 > 
 
 **<결과>**
+
 <img width="195" alt="image" src="https://github.com/user-attachments/assets/f6f15866-ba84-4791-8b79-e1954cbd18e5" />
 
-- 명령어를 잘못 입력했을 때
+#### 명령어를 잘못 입력했을 때
 
 **<결과>**
 
 <img width="387" alt="image" src="https://github.com/user-attachments/assets/ad7f37b5-5ed8-4127-a26f-97f986d4ff7e" />
 
-
+## 3. v2 기능
+- 문제도 등록하거나 취소할수 있도록 구현
+- 잘못 입력한 사람 이름 날릴수있게 구현

@@ -67,17 +67,24 @@ python app.py
 - 잘못 입력한 사람 이름 날릴수있게 구현
 
 ### 도움말 기능
+
 <img width="607" alt="image" src="https://github.com/user-attachments/assets/1131f617-d0f9-44b8-8699-34cc0bd3cf1b" />
 
 ### 문제 등록
+
 <img width="254" alt="image" src="https://github.com/user-attachments/assets/bccd6500-48cb-488d-91a5-5c3a403d2efd" />
 
 ### 문제 삭제
 
+<img width="411" alt="image" src="https://github.com/user-attachments/assets/e7d7dffe-ea19-4b43-875d-f5d0c4b64682" />
+
 ### 문제 조회
+
 <img width="490" alt="image" src="https://github.com/user-attachments/assets/2f6820a9-9406-4ecb-bed5-3941d234b5f4" />
 
 ### 잘못 입력한 사람 이름 삭제
+
+<img width="389" alt="image" src="https://github.com/user-attachments/assets/0643e29c-ea48-41b9-a2aa-aa17c3f8a209" />
 
 ### 기타 변경점
 - +1, -1 이 아닌 자유롭게 올리고 내릴수 있음

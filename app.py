@@ -3,6 +3,7 @@ from collections import defaultdict
 from dotenv import load_dotenv
 import os
 import requests
+import random
 
 load_dotenv()
 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
@@ -11,6 +12,19 @@ app = Flask(__name__)
 
 scores = defaultdict(lambda: defaultdict(lambda: {"score": 0}))
 problems = defaultdict(list)
+
+# 문제 정답을 담는 배열
+answers = defaultdict(list)
+
+# 응원 메세지
+messages = [
+    "오늘도 잘하고 있어요! 조금만 더 힘내요 💪",
+    "당신의 노력은 분명 빛을 발할 거예요 ✨",
+    "조금 느려도 괜찮아요, 계속 나아가고 있다는 게 중요해요 🚶‍♂️🚶‍♀️",
+    "힘들 땐 잠시 쉬어가도 돼요. 당신은 충분히 잘하고 있어요 🌿",
+    "당신을 응원하는 사람이 여기 있어요! 파이팅! 🙌"
+]
+
 
 def post_message(channel, text):
     res = requests.post(
@@ -40,6 +54,8 @@ def handle_score():
 /score init               → 점수 초기화
 /score bye "<@유저>" 또는 "이름" → 사용자 삭제
 /score -a [문제 내용]     → 문제 등록
+/score -aa [문제 내용] [정답]   → 문제, 정답 등록
+/score -c [문제 번호] [정답] → 문제 풀기
 /score problem            → 문제 목록 출력
 /score -r [번호]          → 문제 삭제
 /score -h                 → 이 도움말 보기""")
@@ -63,6 +79,31 @@ def handle_score():
         problems[channel_id].append(question)
         post_message(channel_id, f"문제가 등록되었습니다: {question}")
         return "", 200
+    
+    # 문제와 정답 모두 등록하기
+    if text.startsWith("-aa "):
+        tokens =  text[len("-aa ")].split()
+        if tokens[0] == "-aa" and len(tokens) >= 3:
+            problems[channel_id].append(tokens[1])
+            answers[channel_id].append(tokens[2])
+        else:
+            print("형식이 올바르지 않습니다.")
+    
+    # 정답 확인하기        
+    if text.startsWith("-c "):
+        tokens =  text[len("-aa ")].split()
+        if tokens[0] == "-aa" and len(tokens) >= 3:
+            if answers[tokens[1]] == tokens[2]:
+                print("정답!")
+                # 문제 정답자 점수 자동 증가 로직
+            else:
+                print("오답!")
+        else:
+            print("형식이 올바르지 않습니다.")
+    
+    if text == "cheer":
+        print("ChatGPT의 응원")
+        print(random.choice(messages))       
 
     if text.startswith("-r "):
         try:

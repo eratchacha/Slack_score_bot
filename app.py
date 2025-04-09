@@ -12,11 +12,8 @@ app = Flask(__name__)
 
 scores = defaultdict(lambda: defaultdict(lambda: {"score": 0}))
 problems = defaultdict(list)
-
-# 문제 정답을 담는 배열
 answers = defaultdict(list)
 
-# 응원 메세지
 messages = [
     "오늘도 잘하고 있어요! 조금만 더 힘내요 💪",
     "당신의 노력은 분명 빛을 발할 거예요 ✨",
@@ -25,7 +22,6 @@ messages = [
     "당신을 응원하는 사람이 여기 있어요! 파이팅! 🙌"
 ]
 
-
 def post_message(channel, text):
     res = requests.post(
         "https://slack.com/api/chat.postMessage",
@@ -33,10 +29,7 @@ def post_message(channel, text):
             "Authorization": f"Bearer {SLACK_BOT_TOKEN}",
             "Content-Type": "application/json"
         },
-        json={
-            "channel": channel,
-            "text": text
-        }
+        json={"channel": channel, "text": text}
     )
     print("[슬랙 응답]", res.json())
 
@@ -48,17 +41,18 @@ def handle_score():
 
     if text == "-h":
         post_message(channel_id, """[사용 가능한 명령어 목록]
-/score <@유저> +3 or -2    → 점수 변경
-/score 이름 +3 or -2       → 일반 이름도 가능
-/score                    → 전체 점수 확인
-/score init               → 점수 초기화
-/score bye "<@유저>" 또는 "이름" → 사용자 삭제
-/score -a [문제 내용]     → 문제 등록
-/score -aa [문제 내용] [정답]   → 문제, 정답 등록
-/score -c [문제 번호] [정답] → 문제 풀기
-/score problem            → 문제 목록 출력
-/score -r [번호]          → 문제 삭제
-/score -h                 → 이 도움말 보기""")
+/score <@유저> +3 or -2        → 점수 변경
+/score 이름 +3 or -2           → 일반 이름도 가능
+/score                         → 전체 점수 확인
+/score init                    → 점수 초기화
+/score bye \"<@유저>\" 또는 \"이름\" → 사용자 삭제
+/score -a [문제 내용]          → 문제 등록
+/score -aa [문제] | [정답]     → 문제 + 정답 등록
+/score -c [번호] | [정답]      → 정답 제출
+/score cheer                   → 랜덤 응원 메시지
+/score problem                 → 문제 목록 출력
+/score -r [번호]               → 문제 삭제
+/score -h                      → 이 도움말 보기""")
         return "", 200
 
     if text == "init":
@@ -79,36 +73,40 @@ def handle_score():
         problems[channel_id].append(question)
         post_message(channel_id, f"문제가 등록되었습니다: {question}")
         return "", 200
-    
-    # 문제와 정답 모두 등록하기
-    if text.startsWith("-aa "):
-        tokens =  text[len("-aa ")].split()
-        if tokens[0] == "-aa" and len(tokens) >= 3:
-            problems[channel_id].append(tokens[1])
-            answers[channel_id].append(tokens[2])
-        else:
-            print("형식이 올바르지 않습니다.")
-    
-    # 정답 확인하기        
-    if text.startsWith("-c "):
-        tokens =  text[len("-aa ")].split()
-        if tokens[0] == "-aa" and len(tokens) >= 3:
-            if answers[tokens[1]] == tokens[2]:
-                print("정답!")
-                # 문제 정답자 점수 자동 증가 로직
+
+    if text.startswith("-aa "):
+        try:
+            payload = text[len("-aa "):].split("|")
+            question, answer = payload[0].strip(), payload[1].strip()
+            problems[channel_id].append(question)
+            answers[channel_id].append(answer)
+            post_message(channel_id, f"문제와 정답이 등록되었습니다: {question}")
+        except:
+            post_message(channel_id, "형식: /score -aa [문제] | [정답]")
+        return "", 200
+
+    if text.startswith("-c "):
+        try:
+            payload = text[len("-c "):].split("|")
+            index, user_answer = int(payload[0].strip()) - 1, payload[1].strip()
+            if answers[channel_id][index].lower() == user_answer.lower():
+                scores[channel_id][f"<@{sender_id}>"]["score"] += 1
+                post_message(channel_id, f"정답입니다! <@{sender_id}> 님 1점 획득!")
             else:
-                print("오답!")
-        else:
-            print("형식이 올바르지 않습니다.")
-    
+                post_message(channel_id, f"오답입니다! 정답은: {answers[channel_id][index]}")
+        except:
+            post_message(channel_id, "형식: /score -c [문제 번호] | [정답]")
+        return "", 200
+
     if text == "cheer":
-        print("ChatGPT의 응원")
-        print(random.choice(messages))       
+        post_message(channel_id, random.choice(messages))
+        return "", 200
 
     if text.startswith("-r "):
         try:
             index = int(text[len("-r "):].strip()) - 1
             removed = problems[channel_id].pop(index)
+            answers[channel_id].pop(index)
             post_message(channel_id, f"문제가 삭제되었습니다: {removed}")
         except:
             post_message(channel_id, "문제 번호가 잘못되었습니다.")
@@ -149,11 +147,7 @@ def handle_score():
         post_message(channel_id, "숫자 형식이 잘못되었습니다.")
         return "", 200
 
-    if target.startswith("<@") and target.endswith(">"):
-        name = target
-    else:
-        name = target
-
+    name = target  # 멘션 또는 일반 이름 허용
     scores[channel_id][name]["score"] += delta
     new_score = scores[channel_id][name]["score"]
 

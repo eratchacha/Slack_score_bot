@@ -22,7 +22,7 @@ python app.py
 
 ## 2. v1 기능
 
-#### 점수 등록(+1, -1)
+### 점수 등록(+1, -1)
 
 > /score 이소연 +1
 > 
@@ -37,7 +37,7 @@ python app.py
 
 
 
-#### 점수 초기화
+### 점수 초기화
 
 > /score init
 > 
@@ -49,21 +49,39 @@ python app.py
 <img width="380" alt="image" src="https://github.com/user-attachments/assets/d1774a78-80e6-4ed5-99f5-54085dbefc28" />
 
 
-#### 총점 조회
+### 총점 조회
 
 > /score
 > 
 
-**<결과>**
 
 <img width="195" alt="image" src="https://github.com/user-attachments/assets/f6f15866-ba84-4791-8b79-e1954cbd18e5" />
 
-#### 명령어를 잘못 입력했을 때
+### 명령어를 잘못 입력했을 때
 
-**<결과>**
+<img width="1029" alt="image" src="https://github.com/user-attachments/assets/da193ab0-7319-41f1-b8df-5edefb1dddc8" />
 
-<img width="387" alt="image" src="https://github.com/user-attachments/assets/ad7f37b5-5ed8-4127-a26f-97f986d4ff7e" />
 
 ## 3. v2 기능
 - 문제도 등록하거나 취소할수 있도록 구현
 - 잘못 입력한 사람 이름 날릴수있게 구현
+
+### 도움말 기능
+<img width="607" alt="image" src="https://github.com/user-attachments/assets/1131f617-d0f9-44b8-8699-34cc0bd3cf1b" />
+
+### 문제 등록
+<img width="254" alt="image" src="https://github.com/user-attachments/assets/bccd6500-48cb-488d-91a5-5c3a403d2efd" />
+
+### 문제 삭제
+
+### 문제 조회
+<img width="490" alt="image" src="https://github.com/user-attachments/assets/2f6820a9-9406-4ecb-bed5-3941d234b5f4" />
+
+### 잘못 입력한 사람 이름 삭제
+
+### 기타 변경점
+- +1, -1 이 아닌 자유롭게 올리고 내릴수 있음
+- 아무 이름이 아닌 @닉네임으로 점수를 등록해서 중복 방지
+
+## 4. v3 기능
+- 문제가 두줄이상 일 경우 처리안됨. 

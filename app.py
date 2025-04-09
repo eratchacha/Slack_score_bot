@@ -93,7 +93,7 @@ def handle_score():
                 scores[channel_id][f"<@{sender_id}>"]["score"] += 1
                 post_message(channel_id, f"정답입니다! <@{sender_id}> 님 1점 획득!")
             else:
-                post_message(channel_id, f"오답입니다! 정답은: {answers[channel_id][index]}")
+                post_message(channel_id, f"오답입니다!")
         except:
             post_message(channel_id, "형식: /score -c [문제 번호] | [정답]")
         return "", 200

@@ -91,4 +91,19 @@ python app.py
 - 아무 이름이 아닌 @닉네임으로 점수를 등록해서 중복 방지
 
 ## 4. v3 기능
+- 치얼업 기능
+>
+> /score cheer 입력 시 랜덤으로 치얼업 메세지 송출
+>
+<img width="436" alt="image" src="https://github.com/user-attachments/assets/a131db00-d47a-47ce-8465-a7ad27c18b7a" />
+
+- 자동채점
+>
+> 출제자가 문제와 정답을 함께 입력해두고
+> 사람들이 문제를 입력할 때 정답이면 바로 채점되도록
+>
+<img width="362" alt="image" src="https://github.com/user-attachments/assets/f05d8377-6727-4b1e-ab14-cb53ae0bb7d8" />
+
+
+## 5. 추후에 추가할 기능
 - 문제가 두줄이상 일 경우 처리안됨. 
